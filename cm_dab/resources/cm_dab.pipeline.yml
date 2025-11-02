@@ -1,0 +1,14 @@
+# The main pipeline for cm_dab
+resources:
+  pipelines:
+    cm_dab_pipeline:
+      name: cm_dab_pipeline
+      catalog: alegandi83
+      schema: cm_dab_${bundle.target}
+      serverless: true
+      libraries:
+        - notebook:
+            path: ../src/pipeline.ipynb
+
+      configuration:
+        bundle.sourcePath: ${workspace.file_path}/src

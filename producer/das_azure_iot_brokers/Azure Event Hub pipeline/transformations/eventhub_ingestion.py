@@ -5,12 +5,14 @@ from pyspark.sql.functions import *
 # Event Hubs configuration
 EH_NAMESPACE                    = spark.conf.get("iot.ingestion.eh.namespace")
 EH_NAME                         = spark.conf.get("iot.ingestion.eh.name")
-
 EH_CONN_SHARED_ACCESS_KEY_NAME  = spark.conf.get("iot.ingestion.eh.accessKeyName")
-SECRET_SCOPE                    = spark.conf.get("io.ingestion.eh.secretsScopeName")
-# EH_CONN_SHARED_ACCESS_KEY_VALUE = dbutils.secrets.get(scope = SECRET_SCOPE, key = EH_CONN_SHARED_ACCESS_KEY_NAME)
-EH_CONN_SHARED_ACCESS_KEY_VALUE  = spark.conf.get("iot.ingestion.eh.accessKeyValue")
 
+# Event Hubs configuration - key
+SECRET_SCOPE                    = spark.conf.get("io.ingestion.eh.secretsScopeName")
+SECRET_NAME                     = spark.conf.get("io.ingestion.eh.secretName")
+EH_CONN_SHARED_ACCESS_KEY_VALUE = dbutils.secrets.get(scope = f"{SECRET_SCOPE}", key = f"{SECRET_NAME}")
+
+# Event Hubs configuration - connectionString
 EH_CONN_STR                     = f"Endpoint=sb://{EH_NAMESPACE}.servicebus.windows.net/;SharedAccessKeyName={EH_CONN_SHARED_ACCESS_KEY_NAME};SharedAccessKey={EH_CONN_SHARED_ACCESS_KEY_VALUE}"
 # Kafka Consumer configuration
 

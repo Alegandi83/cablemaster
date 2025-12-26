@@ -83,6 +83,42 @@
         "            region_wikiDataId\n",
         "from        dap_geoanalytics.dap_locations.world"
       ]
+    },
+    {
+      "name": "5fedce54",
+      "displayName": "Districts",
+      "queryLines": [
+        "SELECT      -- districts attrubites\n",
+        "            d.readable_name             AS district_readable_name,\n",
+        "            d.name                      AS district_name,\n",
+        "            d.country_specific_code     AS district_country_specific_code,\n",
+        "            -- countries attributes\n",
+        "            cn.id               as country_id,\n",
+        "            cn.name             as country_name,\n",
+        "            cn.iso2             as country_iso2,\n",
+        "            cn.iso3             as country_iso3,\n",
+        "            cn.numeric_code     as country_numeric_code,\n",
+        "            cn.phonecode        as country_phonecode,\n",
+        "            cn.capital          as country_capital,\n",
+        "            cn.currency         as country_currency,\n",
+        "            cn.currency_name    as country_currency_name,\n",
+        "            cn.currency_symbol  as country_currency_symbol,\n",
+        "            cn.tld              as country_tld,\n",
+        "            cn.native           as country_native,\n",
+        "            cn.population       as country_population,\n",
+        "            cn.gdp              as country_gdp,\n",
+        "            cn.nationality      as country_nationality,\n",
+        "            cn.timezones        as country_timezones,\n",
+        "            cn.translations     as country_translations,\n",
+        "            cn.latitude         as country_latitude,\n",
+        "            cn.longitude        as country_longitude,\n",
+        "            cn.emoji            as country_emoji,\n",
+        "            cn.wikiDataId       as country_wikiDataId\n",
+        "FROM        dap_geoanalytics.dap_locations.county_district  AS d\n",
+        "FULL JOIN   das_azure_postgres_database.public.countries    AS cn\n",
+        "    ON      d.country_2_letter = cn.iso2\n",
+        "-- WHERE       cn.iso2 = 'IT'"
+      ]
     }
   ],
   "pages": [
@@ -1357,7 +1393,7 @@
       "layout": [
         {
           "widget": {
-            "name": "region",
+            "name": "8f9cab90",
             "queries": [
               {
                 "name": "dashboards/01f0e01a6b601a7f86eae0be42be9460/datasets/01f0e2912ec9165990b97ab3eca7edc9_region_name",
@@ -1389,21 +1425,20 @@
                 ]
               },
               "frame": {
-                "showTitle": true,
-                "title": "region"
+                "showTitle": true
               }
             }
           },
           "position": {
             "x": 0,
-            "y": 0,
+            "y": 2,
             "width": 1,
             "height": 2
           }
         },
         {
           "widget": {
-            "name": "subregion-1",
+            "name": "5b82f376",
             "queries": [
               {
                 "name": "dashboards/01f0e01a6b601a7f86eae0be42be9460/datasets/01f0e2912ec9165990b97ab3eca7edc9_subregion_name",
@@ -1435,21 +1470,20 @@
                 ]
               },
               "frame": {
-                "showTitle": true,
-                "title": "subregion"
+                "showTitle": true
               }
             }
           },
           "position": {
             "x": 0,
-            "y": 2,
+            "y": 4,
             "width": 1,
             "height": 2
           }
         },
         {
           "widget": {
-            "name": "country",
+            "name": "5e123785",
             "queries": [
               {
                 "name": "dashboards/01f0e01a6b601a7f86eae0be42be9460/datasets/01f0e2912ec9165990b97ab3eca7edc9_country_name",
@@ -1481,21 +1515,20 @@
                 ]
               },
               "frame": {
-                "showTitle": true,
-                "title": "country"
+                "showTitle": true
               }
             }
           },
           "position": {
             "x": 0,
-            "y": 4,
+            "y": 6,
             "width": 1,
             "height": 2
           }
         },
         {
           "widget": {
-            "name": "state",
+            "name": "232f61a6",
             "queries": [
               {
                 "name": "dashboards/01f0e01a6b601a7f86eae0be42be9460/datasets/01f0e2912ec9165990b97ab3eca7edc9_state_name",
@@ -1527,21 +1560,20 @@
                 ]
               },
               "frame": {
-                "showTitle": true,
-                "title": "state"
+                "showTitle": true
               }
             }
           },
           "position": {
             "x": 0,
-            "y": 6,
+            "y": 8,
             "width": 1,
             "height": 2
           }
         },
         {
           "widget": {
-            "name": "bab9ad91",
+            "name": "42bba503",
             "queries": [
               {
                 "name": "dashboards/01f0e01a6b601a7f86eae0be42be9460/datasets/01f0e2912ec9165990b97ab3eca7edc9_cities_name",
@@ -1579,13 +1611,239 @@
           },
           "position": {
             "x": 0,
-            "y": 8,
+            "y": 10,
             "width": 1,
             "height": 2
           }
         }
       ],
       "pageType": "PAGE_TYPE_GLOBAL_FILTERS"
+    },
+    {
+      "name": "d8d90e0e",
+      "displayName": "Districts - Area",
+      "layout": [
+        {
+          "widget": {
+            "name": "a16a996c",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "5fedce54",
+                  "fields": [
+                    {
+                      "name": "countdistinct(country_id)",
+                      "expression": "COUNT(DISTINCT `country_id`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "countdistinct(country_id)"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "countries"
+              }
+            }
+          },
+          "position": {
+            "x": 2,
+            "y": 0,
+            "width": 1,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "0ffb9563",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "5fedce54",
+                  "fields": [
+                    {
+                      "name": "countdistinct(district_country_specific_code)",
+                      "expression": "COUNT(DISTINCT `district_country_specific_code`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "countdistinct(district_country_specific_code)"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "districts"
+              }
+            }
+          },
+          "position": {
+            "x": 5,
+            "y": 0,
+            "width": 1,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "country-1",
+            "queries": [
+              {
+                "name": "dashboards/01f0e01a6b601a7f86eae0be42be9460/datasets/01f0e2afe08e1370bae0aa826ae737a4_country_name",
+                "query": {
+                  "datasetName": "5fedce54",
+                  "fields": [
+                    {
+                      "name": "country_name",
+                      "expression": "`country_name`"
+                    },
+                    {
+                      "name": "country_name_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "country_name",
+                    "queryName": "dashboards/01f0e01a6b601a7f86eae0be42be9460/datasets/01f0e2afe08e1370bae0aa826ae737a4_country_name"
+                  }
+                ]
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "country"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 2,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "district",
+            "queries": [
+              {
+                "name": "dashboards/01f0e01a6b601a7f86eae0be42be9460/datasets/01f0e2afe08e1370bae0aa826ae737a4_district_name",
+                "query": {
+                  "datasetName": "5fedce54",
+                  "fields": [
+                    {
+                      "name": "district_name",
+                      "expression": "`district_name`"
+                    },
+                    {
+                      "name": "district_name_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "district_name",
+                    "queryName": "dashboards/01f0e01a6b601a7f86eae0be42be9460/datasets/01f0e2afe08e1370bae0aa826ae737a4_district_name"
+                  }
+                ]
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "district"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 0,
+            "width": 2,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "2b8b6d71",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "5fedce54",
+                  "fields": [
+                    {
+                      "name": "country_iso2",
+                      "expression": "`country_iso2`"
+                    },
+                    {
+                      "name": "district_country_specific_code",
+                      "expression": "`district_country_specific_code`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 1,
+              "widgetType": "choropleth-map",
+              "encodings": {
+                "region": {
+                  "regionType": "mapbox-v4-admin",
+                  "admin0": {
+                    "fieldName": "country_iso2",
+                    "type": "field",
+                    "geographicRole": "admin0-unit-code"
+                  },
+                  "admin2": {
+                    "fieldName": "district_country_specific_code",
+                    "type": "field",
+                    "geographicRole": "admin2-unit-code"
+                  }
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 1,
+            "width": 6,
+            "height": 9
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS"
     }
   ],
   "uiSettings": {

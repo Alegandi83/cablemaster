@@ -117,7 +117,7 @@
         "FROM        dap_geoanalytics.dap_locations.county_district  AS d\n",
         "FULL JOIN   das_azure_postgres_database.public.countries    AS cn\n",
         "    ON      d.country_2_letter = cn.iso2\n",
-        "-- WHERE       cn.iso2 = 'IT'"
+        "WHERE       cn.iso2 = 'IT'"
       ]
     }
   ],
